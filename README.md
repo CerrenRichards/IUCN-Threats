@@ -6,7 +6,9 @@ This repository contains an R tutorial to extract species threat data from the I
 
 
 ## Data to download for the tutorial
-We will use the list of seabirds downloaded from Richards et al. 2021: https://datadryad.org/stash/dataset/doi%253A10.5061%252Fdryad.x69p8czhd 
+We will use the list of seabirds downloaded from Richards et al. (2021): https://datadryad.org/stash/dataset/doi%253A10.5061%252Fdryad.x69p8czhd 
+
+Richards C, Cooke RSC, Bates AE. 2021. Biological traits of seabirds predict extinction risk and vulnerability to anthropogenic threats. Global Ecology and Biogeography 00:1–14. DOI: 10.1101/2020.09.30.321513.
 
 ## Other requirements for the tutorial
 An API key is needed to download the IUCN data. APIs can be requested from: https://apiv3.iucnredlist.org/api/v3/token
@@ -23,13 +25,17 @@ Any queries can be directed to **Cerren Richards** cerrenrichards@gmail.com
 <img width="378" alt="IUCN threats" src="https://user-images.githubusercontent.com/39834789/191875364-fd627238-9f73-4dcf-8d1d-2578c0fb52b9.png">
 
 
-We will use package `rredlist` to extract the IUCN data. Here we also load in the seabird data.
+We will use package `rredlist` to extract the IUCN data (Chamberlain, 2020). 
+
+`rredlist` - Scott Chamberlain (2020). rredlist: 'IUCN' Red List Client. R package version 0.7.0. https://CRAN.R-project.org/package=rredlist
 
 ```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
 # Load packages
 library(rredlist); library(rlist) 
+```
 
-# Load the names of seabirds downloaded from Richards et al. (2021)
+Load in the seabird data from Richards et al. (2021)
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
 seabirds <- read.csv("Imputed Trait Data.csv")
 ```
 
