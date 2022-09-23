@@ -1,6 +1,6 @@
 # Extracting IUCN threat data and IUCN Red List Categories using `rredlist`
 ## Tutorial Contents
-This repository contains an R tutorial to extract species threat data from the [IUCN Threat Classification Scheme](https://www.iucnredlist.org/resources/threat-classification-scheme). It also contains the code to extract the [IUCN Red List Categories] (https://www.iucnredlist.org/). 
+This repository contains an R tutorial to extract species threat data from the [IUCN Threat Classification Scheme](https://www.iucnredlist.org/resources/threat-classification-scheme). It also contains the code to extract the [IUCN Red List Categories](https://www.iucnredlist.org/). 
 
 **Note - Because threats and categories are updated through time, they may change in the future.**
 
@@ -8,7 +8,7 @@ This code was written by [Cerren Richards](https://github.com/CerrenRichards) an
 
 
 ## Data to download for the tutorial
-We will use the list of 341 seabird species downloaded from Richards et al. (2021): https://datadryad.org/stash/dataset/doi%253A10.5061%252Fdryad.x69p8czhd 
+We will use the list of 341 seabird species downloaded from [Richards et al. (2021)](https://datadryad.org/stash/dataset/doi%253A10.5061%252Fdryad.x69p8czhd). 
 
 Richards C, Cooke RSC, Bates AE. 2021. Biological traits of seabirds predict extinction risk and vulnerability to anthropogenic threats. Global Ecology and Biogeography 00:1–14. DOI: 10.1101/2020.09.30.321513.
 
@@ -105,7 +105,7 @@ If you are interested in extracting only a subset of threats, you can use the co
 
 Here we subset all the seabird species that are known to be threatened from oil drilling, shipping lanes and subsistence fishing. 
 
-We must first check the unique IUCN Codes = https://www.iucnredlist.org/resources/threat-classification-scheme
+We must first check the unique [IUCN Codes](https://www.iucnredlist.org/resources/threat-classification-scheme):
 
 -	3.1 Oil & gas drilling
 -	4.3 Shipping lanes
