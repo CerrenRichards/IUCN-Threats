@@ -1,0 +1,96 @@
+---
+title: "IUCN Tutorial"
+author: "Cerren Richards"
+date: "18/09/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Importing species' threat data from the IUCN
+
+To identify which species are threatened from oil drilling, shipping lanes and subsistence fishing, we first must extract all the seabird threats from the IUCN Threat Classification Scheme: https://www.iucnredlist.org/resources/threat-classification-scheme. 
+
+Note - Because threats are updated through time, they may change in the future.
+
+Note - an API key is needed to download the IUCN data. APIs can be requested from: https://apiv3.iucnredlist.org/api/v3/token
+
+Here, for an example, we use the list of seabird downloaded from Richards et al. 2021:  https://datadryad.org/stash/dataset/doi%253A10.5061%252Fdryad.x69p8czhd 
+
+
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
+
+# Load packages
+library(rredlist); library(rlist) 
+
+# Load the names of seabirds
+seabirds <- read.csv("Imputed Trait Data.csv")
+
+# Create a vector of species names from the traits dataframe
+# IMPORTANT - Species names must match the IUCN species names
+spp <- as.character(seabirds$binomial) 
+
+# Enter your unique IUCN code here
+# Request from: https://apiv3.iucnredlist.org/api/v3/token 
+iucn_key <- "" 
+
+# Extract the threats for each species from th IUCN database.
+# Creates a list
+# NOTE - Depending on the size of your species list, this can take a while
+# For 341 species, it takes 10-15 minutes to run
+iucn <- lapply(spp, function(x) {
+  y <- rl_threats(name = x, key = iucn_key)
+  Sys.sleep(2)
+  # 2 second delay makes API work better - recommended by IUCN
+  return(y)
+})
+
+### Add an extra column to the dataframes in the list with the binomial names:
+for (i in 1:length(iucn)) { 
+  iucn[[i]][["result"]]$binomial <- iucn[[i]][["name"]] 
+}
+
+## Reduce the lists down
+iucn <- Reduce(rbind, iucn) 
+
+# remove all of the extra species names in the list
+iucn[1:341] <- NULL 
+
+# Remove all lists with species with no threats
+iucn <- iucn[sapply(iucn, length)>1] 
+
+# binds all list elements by row to make a dataframe
+iucn <- list.rbind(iucn)
+
+# Delete the columns that will not be used in further analyses
+iucn <- iucn[- c(3:7)] 
+
+```
+
+
+### Subset species at risk to threats
+
+Here we subset all the seabird species that are known to be threatened from oil drilling, shipping lanes and subsistence fishing. 
+
+IUCN Codes = https://www.iucnredlist.org/resources/threat-classification-scheme
+
+-	3.1 Oil & gas drilling
+-	4.3 Shipping lanes
+-	5.4.1 Intentional use: subsistence/small scale (species being assessed is the target)[harvest]
+-	5.4.3 Unintentional effects: subsistence/small scale (species being assessed is not the target)[harvest]
+
+
+```{r, eval = FALSE}
+
+# Subset based on the IUCN codes
+Threats <- iucn[iucn$code %in% c("3.1", # Oil & gas drilling
+                                 "4.3", # Shipping lanes
+                                 "5.4.1", # Intentional subsistence fishing
+                                 "5.4.3"), ] # Unintentional subsistence fishing
+
+```
+
+
