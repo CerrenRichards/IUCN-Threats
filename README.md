@@ -1,4 +1,4 @@
-# IUCN-Threats
+# Extracting IUCN threat data and IUCN Red List Categories using `rredlist`
 ## Tutorial Contents
 This repository contains an R tutorial to extract species threat data from the IUCN Threat Classification Scheme: https://www.iucnredlist.org/resources/threat-classification-scheme. It also contains the code to extract the IUCN Red List Categories: https://www.iucnredlist.org/. 
 
