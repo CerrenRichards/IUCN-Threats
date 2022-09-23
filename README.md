@@ -11,7 +11,11 @@ We will use the list of seabirds downloaded from Richards et al. 2021: https://d
 ## Other requirements for the tutorial
 An API key is needed to download the IUCN data. APIs can be requested from: https://apiv3.iucnredlist.org/api/v3/token
 
+## Scripts
+`IUCN Tutorial.Rmd` The R Markdown file that contains the code for the tutorial.
 
+## Contact
+Any queries can be directed to **Cerren Richards** cerrenrichards@gmail.com
 
 ## IUCN Threat Classifications
 **Table representing the broad IUCN threat classification categories.**
@@ -29,7 +33,8 @@ library(rredlist); library(rlist)
 seabirds <- read.csv("Imputed Trait Data.csv")
 ```
 
-We will create a vector of species names from the traits dataframe
+We will create a vector of species names from the traits dataframe.
+
 **IMPORTANT** - Species names must match the IUCN species names
 ```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
 spp <- as.character(seabirds$binomial) 
@@ -41,6 +46,7 @@ iucn_key <- ""
 ```
 
 Extract the threats for each species from th IUCN database. It creates a list. 
+
 **NOTE** - Depending on the size of your species list, this can take a while. For 341 species, it takes 10-15 minutes to run.
 ```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
 iucn <- lapply(spp, function(x) {
@@ -108,12 +114,51 @@ Threats <- iucn[iucn$code %in% c("3.1", # Oil & gas drilling
 
 ## IUCN Red List Categories
 
- 
- 
 <img width="1118" alt="Categories" src="https://user-images.githubusercontent.com/39834789/191875626-f479e8a9-d6f3-4505-bcb5-812e6fa5512f.png">
 
-## Scripts
-`IUCN Tutorial.Rmd` The R Markdown file that contains the code for the tutorial.
+The following code follows a similar approach as seen above to extract the IUCN Red List Categories for the seabirds in Richards et al. (2021). 
 
-## Contact
-Any queries can be directed to **Cerren Richards** cerrenrichards@gmail.com
+```{r}
+# Extract the IUCN categories for each species from the IUCN database. 
+# NOTE - this code can take ~15 minutes to run.
+iucn.red <- lapply(spp, function(x) {
+  y <- rl_history(name = x, key = iucn_key)
+  Sys.sleep(2)
+  # 2 second delay makes API work better - recommended by IUCN
+  return(y)
+})
+
+### Add an extra column to the dataframes in the list with the binomial names:
+for (i in 1:length(iucn.red)) { 
+  iucn.red[[i]][["result"]]$binomial <- iucn.red[[i]][["name"]] 
+}
+
+# Thayer's Gull is Not Evaluated by the IUCN, so we will remove it
+iucn.red <- iucn.red[sapply(iucn.red, length)>1] 
+
+# binds all list elements by row to make a dataframe
+iucn.red <- list.rbind(iucn.red) 
+
+# remove all of the extra species names in the list
+iucn.red[1:341] <- NULL 
+
+# deletes Thayer's Gull
+iucn.red[[134]] <- NULL 
+
+# binds all list elements by row to make a dataframe
+iucn.red <- list.rbind(iucn.red) 
+
+# remove all the historic information and only keep the most recent IUCN classification 
+iucn.red <- iucn.red %>% distinct(binomial, .keep_all = TRUE)
+
+# Delete the columns that will not be used in further analyses
+iucn.red <- iucn.red[- c(1,3)] 
+
+# Rename the code column to IUCN
+traits <- left_join(seabirds, iucn.red, by = "binomial")
+
+# rename the column
+colnames(seabirds)[colnames(seabirds) == 'code'] <- 'IUCN'
+```
+
+
