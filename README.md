@@ -12,6 +12,8 @@ Richards C, Cooke RSC, Bates AE. 2021. Biological traits of seabirds predict ext
 
 <img width="1393" alt="Seabirds" src="https://user-images.githubusercontent.com/39834789/191879287-6f39868f-ae66-4574-9e9b-ef8d2e4c8f03.png">
 
+**Artwork: Cerren Richards**
+
 
 ## Other requirements for the tutorial
 An API key is needed to download the IUCN data. APIs can be requested from: https://apiv3.iucnredlist.org/api/v3/token
