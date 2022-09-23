@@ -19,39 +19,48 @@ An API key is needed to download the IUCN data. APIs can be requested from: http
 <img width="378" alt="IUCN threats" src="https://user-images.githubusercontent.com/39834789/191875364-fd627238-9f73-4dcf-8d1d-2578c0fb52b9.png">
 
 
-We will use packages `rredlist` to extract the IUCN data.
+We will use package `rredlist` to extract the IUCN data. Here we also load in the seabird data.
 
 ```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
-
 # Load packages
 library(rredlist); library(rlist) 
 
 # Load the names of seabirds downloaded from Richards et al. (2021)
 seabirds <- read.csv("Imputed Trait Data.csv")
+```
 
-# Create a vector of species names from the traits dataframe
-# IMPORTANT - Species names must match the IUCN species names
+We will create a vector of species names from the traits dataframe
+**IMPORTANT** - Species names must match the IUCN species names
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
 spp <- as.character(seabirds$binomial) 
+```
 
-# Enter your unique IUCN code here
-# Request from: https://apiv3.iucnredlist.org/api/v3/token 
+Enter your unique IUCN code here
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
 iucn_key <- "" 
+```
 
-# Extract the threats for each species from th IUCN database.
-# Creates a list
-# NOTE - Depending on the size of your species list, this can take a while
-# For 341 species, it takes 10-15 minutes to run
+Extract the threats for each species from th IUCN database. It creates a list. 
+**NOTE** - Depending on the size of your species list, this can take a while. For 341 species, it takes 10-15 minutes to run.
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
 iucn <- lapply(spp, function(x) {
   y <- rl_threats(name = x, key = iucn_key)
   Sys.sleep(2)
   # 2 second delay makes API work better - recommended by IUCN
   return(y)
 })
+```
 
-### Add an extra column to the dataframes in the list with the binomial names:
+Add an extra column to the dataframes in the list with the binomial names.
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
 for (i in 1:length(iucn)) { 
   iucn[[i]][["result"]]$binomial <- iucn[[i]][["name"]] 
 }
+```
+
+Reduce the list and tidy the dataframe.
+
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
 
 ## Reduce the lists down
 iucn <- Reduce(rbind, iucn) 
@@ -69,6 +78,7 @@ iucn <- list.rbind(iucn)
 iucn <- iucn[- c(3:7)] 
 
 ```
+
 
 ## Subset species at risk to specific threats
 
