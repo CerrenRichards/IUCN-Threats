@@ -1,7 +1,8 @@
 # IUCN-Threats
 ## Tutorial Contents
 This repository contains an R tutorial to extract species threat data from the IUCN Threat Classification Scheme: https://www.iucnredlist.org/resources/threat-classification-scheme. It also contains the code to extract the IUCN Red List Categories: https://www.iucnredlist.org/. 
-Note - Because threats and categories are updated through time, they may change in the future.
+
+**Note - Because threats and categories are updated through time, they may change in the future.**
 
 
 ## Data to download for the tutorial
@@ -13,10 +14,12 @@ An API key is needed to download the IUCN data. APIs can be requested from: http
 
 
 ## IUCN Threat Classifications
+**Table representing the broad IUCN threat classification categories.**
 
 <img width="378" alt="IUCN threats" src="https://user-images.githubusercontent.com/39834789/191875364-fd627238-9f73-4dcf-8d1d-2578c0fb52b9.png">
-Table representing the broad IUCN threat classification categories.
 
+
+We will use packages `rredlist` to extract the IUCN data.
 
 ```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
 
@@ -67,6 +70,29 @@ iucn <- iucn[- c(3:7)]
 
 ```
 
+## Subset species at risk to specific threats
+
+If you are interested in extracting only a subset of threats, you can use the code below.
+
+Here we subset all the seabird species that are known to be threatened from oil drilling, shipping lanes and subsistence fishing. 
+
+We must first check the unique IUCN Codes = https://www.iucnredlist.org/resources/threat-classification-scheme
+
+-	3.1 Oil & gas drilling
+-	4.3 Shipping lanes
+-	5.4.1 Intentional use: subsistence/small scale (species being assessed is the target)[harvest]
+-	5.4.3 Unintentional effects: subsistence/small scale (species being assessed is not the target)[harvest]
+
+
+```{r, eval = FALSE}
+
+# Subset based on the IUCN codes
+Threats <- iucn[iucn$code %in% c("3.1", # Oil & gas drilling
+                                 "4.3", # Shipping lanes
+                                 "5.4.1", # Intentional subsistence fishing
+                                 "5.4.3"), ] # Unintentional subsistence fishing
+
+```
 
 
 
