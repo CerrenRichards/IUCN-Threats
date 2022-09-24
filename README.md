@@ -26,9 +26,6 @@ An API key is needed to download the IUCN data. APIs can be requested from the [
 ## Scripts
 `IUCN Tutorial.Rmd` The R Markdown file that contains the code for the tutorial.
 
-## Contact
-Any queries can be directed to **Cerren Richards** cerrenrichards@gmail.com
-
 # IUCN Threat Classifications
 **Table representing the broad IUCN threat classification categories.**
 
@@ -146,7 +143,7 @@ iucn.red <- lapply(spp, function(x) {
 })
 ```
 
-Add an extra column to the dataframes in the list with the binomial names:
+Add an extra column to the dataframes in the list with the binomial names.
 ```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
 for (i in 1:length(iucn.red)) { 
   iucn.red[[i]][["result"]]$binomial <- iucn.red[[i]][["name"]] 
@@ -188,12 +185,12 @@ Delete the columns that will not be used further.
 iucn.red <- iucn.red[- c(1,3)] 
 ```
 
-Rename the code column to IUCN
+Rename the code column to IUCN.
 ```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
 seabirds <- left_join(seabirds, iucn.red, by = "binomial")
 ```
 
-rename the column
+Rename the column.
 ```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
 colnames(seabirds)[colnames(seabirds) == 'code'] <- 'IUCN'
 ```
