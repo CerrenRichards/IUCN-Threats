@@ -29,7 +29,7 @@ An API key is needed to download the IUCN data. APIs can be requested from the [
 ## Contact
 Any queries can be directed to **Cerren Richards** cerrenrichards@gmail.com
 
-## IUCN Threat Classifications
+# IUCN Threat Classifications
 **Table representing the broad IUCN threat classification categories.**
 
 <img width="378" alt="IUCN threats" src="https://user-images.githubusercontent.com/39834789/191875364-fd627238-9f73-4dcf-8d1d-2578c0fb52b9.png">
@@ -128,7 +128,7 @@ Threats <- iucn[iucn$code %in% c("3.1", # Oil & gas drilling
 
 
 
-## IUCN Red List Categories
+# IUCN Red List Categories
 
 <img width="1118" alt="Categories" src="https://user-images.githubusercontent.com/39834789/191875626-f479e8a9-d6f3-4505-bcb5-812e6fa5512f.png">
 
@@ -193,7 +193,7 @@ Rename the code column to IUCN
 seabirds <- left_join(seabirds, iucn.red, by = "binomial")
 ```
 
-# rename the column
+rename the column
 ```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
 colnames(seabirds)[colnames(seabirds) == 'code'] <- 'IUCN'
 ```
