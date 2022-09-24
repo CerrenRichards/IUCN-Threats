@@ -10,7 +10,9 @@ This code was written by [Cerren Richards](https://github.com/CerrenRichards) an
 ## Data to download for the tutorial
 We will use the `Imputed Trait Data.csv` data from Richards et al. (2021) "Biological traits of seabirds predict extinction risk and vulnerability to anthropogenic threats" that contains a list of 341 seabird species. The data can be [downloaded from Dryad](https://datadryad.org/stash/dataset/doi%253A10.5061%252Fdryad.x69p8czhd). 
 
+
 [Read the full article here.](https://onlinelibrary.wiley.com/doi/abs/10.1111/geb.13279) 
+
 [Read the bioRxiv preprint here.](https://www.biorxiv.org/content/10.1101/2020.09.30.321513v1) 
 
 
