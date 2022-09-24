@@ -134,47 +134,66 @@ Threats <- iucn[iucn$code %in% c("3.1", # Oil & gas drilling
 
 The following code follows a similar approach as seen above to extract the IUCN Red List Categories for the seabirds in Richards et al. (2021). 
 
-```{r}
-# Extract the IUCN categories for each species from the IUCN database. 
-# NOTE - this code can take ~15 minutes to run.
+
+Extract the IUCN categories for each species from the IUCN database. 
+**NOTE** - this code can take ~15 minutes to run.
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
 iucn.red <- lapply(spp, function(x) {
   y <- rl_history(name = x, key = iucn_key)
   Sys.sleep(2)
   # 2 second delay makes API work better - recommended by IUCN
   return(y)
 })
+```
 
-### Add an extra column to the dataframes in the list with the binomial names:
+Add an extra column to the dataframes in the list with the binomial names:
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
 for (i in 1:length(iucn.red)) { 
   iucn.red[[i]][["result"]]$binomial <- iucn.red[[i]][["name"]] 
 }
-
-# Thayer's Gull is Not Evaluated by the IUCN, so we will remove it
-iucn.red <- iucn.red[sapply(iucn.red, length)>1] 
-
-# binds all list elements by row to make a dataframe
-iucn.red <- list.rbind(iucn.red) 
-
-# remove all of the extra species names in the list
-iucn.red[1:341] <- NULL 
-
-# deletes Thayer's Gull
-iucn.red[[134]] <- NULL 
-
-# binds all list elements by row to make a dataframe
-iucn.red <- list.rbind(iucn.red) 
-
-# remove all the historic information and only keep the most recent IUCN classification 
-iucn.red <- iucn.red %>% distinct(binomial, .keep_all = TRUE)
-
-# Delete the columns that will not be used in further analyses
-iucn.red <- iucn.red[- c(1,3)] 
-
-# Rename the code column to IUCN
-traits <- left_join(seabirds, iucn.red, by = "binomial")
-
-# rename the column
-colnames(seabirds)[colnames(seabirds) == 'code'] <- 'IUCN'
 ```
 
+Thayer's Gull is Not Evaluated by the IUCN, so we will remove it.
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
+iucn.red <- iucn.red[sapply(iucn.red, length)>1] 
+```
 
+Binds all list elements by row to make a dataframe.
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
+iucn.red <- list.rbind(iucn.red) 
+```
+
+Remove all of the extra species names in the list.
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
+iucn.red[1:341] <- NULL 
+```
+
+Deletes Thayer's Gull.
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
+iucn.red[[134]] <- NULL 
+```
+
+Binds all list elements by row to make a dataframe.
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
+iucn.red <- list.rbind(iucn.red) 
+```
+
+Remove all the historic information and only keep the most recent IUCN classification. 
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
+iucn.red <- iucn.red %>% distinct(binomial, .keep_all = TRUE)
+```
+
+Delete the columns that will not be used further.
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
+iucn.red <- iucn.red[- c(1,3)] 
+```
+
+Rename the code column to IUCN
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
+seabirds <- left_join(seabirds, iucn.red, by = "binomial")
+```
+
+# rename the column
+```{r message=FALSE, error=FALSE, warning=FALSE, eval = FALSE}
+colnames(seabirds)[colnames(seabirds) == 'code'] <- 'IUCN'
+```
