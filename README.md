@@ -8,9 +8,11 @@ This code was written by [Cerren Richards](https://github.com/CerrenRichards) an
 
 
 ## Data to download for the tutorial
-We will use the list of 341 seabird species downloaded from [Richards et al. (2021)](https://datadryad.org/stash/dataset/doi%253A10.5061%252Fdryad.x69p8czhd). 
+We will use the `Imputed Trait Data.csv` data from Richards et al. (2021) "Biological traits of seabirds predict extinction risk and vulnerability to anthropogenic threats" that contains a list of 341 seabird species. The data can be [downloaded from Dryad](https://datadryad.org/stash/dataset/doi%253A10.5061%252Fdryad.x69p8czhd). 
 
-Richards C, Cooke RSC, Bates AE. 2021. Biological traits of seabirds predict extinction risk and vulnerability to anthropogenic threats. Global Ecology and Biogeography 00:1–14. DOI: 10.1101/2020.09.30.321513.
+[Read the full article here.](https://onlinelibrary.wiley.com/doi/abs/10.1111/geb.13279) 
+[Read the bioRxiv preprint here.](https://www.biorxiv.org/content/10.1101/2020.09.30.321513v1) 
+
 
 <img width="1393" alt="Seabirds" src="https://user-images.githubusercontent.com/39834789/191879287-6f39868f-ae66-4574-9e9b-ef8d2e4c8f03.png">
 
@@ -18,7 +20,7 @@ Richards C, Cooke RSC, Bates AE. 2021. Biological traits of seabirds predict ext
 
 
 ## Other requirements for the tutorial
-An API key is needed to download the IUCN data. APIs can be requested from: https://apiv3.iucnredlist.org/api/v3/token
+An API key is needed to download the IUCN data. APIs can be requested from the [IUCN website](https://apiv3.iucnredlist.org/api/v3/token).
 
 ## Scripts
 `IUCN Tutorial.Rmd` The R Markdown file that contains the code for the tutorial.
